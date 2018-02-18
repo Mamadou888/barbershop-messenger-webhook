@@ -3,6 +3,28 @@
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const request = require('request');
 
+// Create an array of barber objects representing barbers in our network
+var barbers_in_network = [
+  {
+    "firstname": "mekhi",
+    "lastname": "jones",
+    "barber_id": "1",
+    "phone_number": "1234567890"
+  },
+  {
+    "firstname": "surendra",
+    "lastname": "persaud",
+    "barber_id": "2",
+    "phone_number": "1234567890"
+  },
+  {
+    "firstname": "garry",
+    "lastname": "archbold",
+    "barber_id": "3",
+    "phone_number": "1234567890"
+  }
+];
+
 // Imports dependencies and set up http server
 const
 express = require('express'),
@@ -52,10 +74,6 @@ request({
 app.post('/webhook', (req, res) => {
 
   let body = req.body;
-
-
-
-
 
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
@@ -119,6 +137,15 @@ app.get('/webhook', (req, res) => {
   }
 });
 
+function confirmBarber(barber_id) {
+  for (var i = 0; i < barbers_in_network.length; i++) {
+    if (barbers_in_network[i].barber_id == barber_id) {
+      console.log("Found barber!");
+      return i;
+    }
+  }
+}
+
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
   let response;
@@ -127,9 +154,18 @@ function handleMessage(sender_psid, received_message) {
   if (received_message.text) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
+
+    // First response should be the barbers ID, confirm Barber exists
+    let barber_id = recieved_message.text;
+    let i = confirmBarber(barber_id);
+    // Display the times that this barber is free
     response = {
-      "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
+      "text": "Found your barber " + barbers_in_network[i].firstname + "!"
     }
+
+    // response = {
+    //   "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
+    // }
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
     let attachment_url = received_message.attachments[0].payload.url;
@@ -174,7 +210,7 @@ function handlePostback(sender_psid, received_postback) {
   // check if payload is get_started_clicked payload
   // Set the response based on the postback payload
   if (payload == 'get_started_clicked') {
-    response = {"text": "What is your barbers identification code?"}
+    response = {"text": "Welcome to Clips Barbers. To help you book an appointment, tell us your barbers identification code."}
   } else if (payload === 'yes') {
     response = { "text": "Thanks!" }
   } else if (payload === 'no') {
