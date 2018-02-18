@@ -145,7 +145,7 @@ function confirmBarber(barber_id) {
   }
 }
 
-let i;
+let id;
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
@@ -157,15 +157,15 @@ function handleMessage(sender_psid, received_message) {
     // will be added to the body of our request to the Send API
 
     // First response should be the barbers ID, confirm Barber exists
-    barber_id = received_message.text;
-    let i = confirmBarber(barber_id);
+    let barber_id = received_message.text;
+    id = confirmBarber(barber_id);
     // Now that barber id is found, ask the user if they would like to book an appointment
     response = {
       "attachment": {
         "type": "template",
         "payload": {
           "template_type": "button",
-          "text":"Found your barber " + barbers_in_network[i].firstname + "! Would you like to book an appointment?",
+          "text":"Found your barber " + barbers_in_network[id].firstname + "! Would you like to book an appointment?",
           "buttons":[
             {
               "type": "postback",
@@ -241,53 +241,53 @@ function handlePostback(sender_psid, received_postback) {
       "quick_replies":[
         {
           "content_type":"text",
-          "title":barbers_in_network[i].times_free[0],
-          "payload":barbers_in_network[i].times_free[0]
+          "title":barbers_in_network[id].times_free[0],
+          "payload":barbers_in_network[id].times_free[0]
         },
         {
           "content_type":"text",
-          "title":barbers_in_network[i].times_free[1],
-          "payload":barbers_in_network[i].times_free[1]
+          "title":barbers_in_network[id].times_free[1],
+          "payload":barbers_in_network[id].times_free[1]
         },
         {
           "content_type":"text",
-          "title":barbers_in_network[i].times_free[2],
-          "payload":barbers_in_network[i].times_free[2]
+          "title":barbers_in_network[id].times_free[2],
+          "payload":barbers_in_network[id].times_free[2]
         },
         {
           "content_type":"text",
-          "title":barbers_in_network[i].times_free[3],
-          "payload":barbers_in_network[i].times_free[3]
+          "title":barbers_in_network[id].times_free[3],
+          "payload":barbers_in_network[id].times_free[3]
         },
         {
           "content_type":"text",
-          "title":barbers_in_network[i].times_free[4],
-          "payload":barbers_in_network[i].times_free[4]
+          "title":barbers_in_network[id].times_free[4],
+          "payload":barbers_in_network[id].times_free[4]
         },
         {
           "content_type":"text",
-          "title":barbers_in_network[i].times_free[5],
-          "payload":barbers_in_network[i].times_free[5]
+          "title":barbers_in_network[id].times_free[5],
+          "payload":barbers_in_network[id].times_free[5]
         },
         {
           "content_type":"text",
-          "title":barbers_in_network[i].times_free[6],
-          "payload":barbers_in_network[i].times_free[6]
+          "title":barbers_in_network[id].times_free[6],
+          "payload":barbers_in_network[id].times_free[6]
         },
         {
           "content_type":"text",
-          "title":barbers_in_network[i].times_free[7],
-          "payload":barbers_in_network[i].times_free[7]
+          "title":barbers_in_network[id].times_free[7],
+          "payload":barbers_in_network[id].times_free[7]
         },
         {
           "content_type":"text",
-          "title":barbers_in_network[i].times_free[8],
-          "payload":barbers_in_network[i].times_free[8]
+          "title":barbers_in_network[id].times_free[8],
+          "payload":barbers_in_network[id].times_free[8]
         },
         {
           "content_type":"text",
-          "title":barbers_in_network[i].times_free[9],
-          "payload":barbers_in_network[i].times_free[9]
+          "title":barbers_in_network[id].times_free[9],
+          "payload":barbers_in_network[id].times_free[9]
         }
       ]
     }
