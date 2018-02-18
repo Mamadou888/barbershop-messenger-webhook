@@ -235,7 +235,6 @@ function handlePostback(sender_psid, received_postback) {
 
     // Set up times barber is free
 
-
     response = {
       "text": "Here are your barbers available date and times. Please choose a date that works for you. If none works, reply back with 'none'!",
       "quick_replies":[
@@ -291,9 +290,14 @@ function handlePostback(sender_psid, received_postback) {
         }
       ]
     }
-  } else if (payload === 'appointment_no') {
+  } else if (payload == 'appointment_no') {
     response = { "text": "Well, thanks for reaching out, comeaback another day :)." }
+  } else {
+    response = {
+      "text": "Awesome. You have been confirmed for: " + payload + ".See you then. \n Feel free to reach back out if would like to update or cancel your appointment."
+    }
   }
+
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
 }
