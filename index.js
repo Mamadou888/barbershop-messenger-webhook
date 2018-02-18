@@ -165,7 +165,7 @@ function handleMessage(sender_psid, received_message) {
         "type": "template",
         "payload": {
           "template_type": "button",
-          "text":"Found your barber " + barbers_in_network[id].firstname + "! Would you like to book an appointment?",
+          "text": "Found your barber " + " barbers_in_network[id].firstname " + "! Would you like to book an appointment?",
           "buttons":[
             {
               "type": "postback",
