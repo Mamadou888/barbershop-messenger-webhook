@@ -5,18 +5,57 @@ const request = require('request');
 
 // Imports dependencies and set up http server
 const
-  express = require('express'),
-  bodyParser = require('body-parser'),
-  app = express().use(bodyParser.json()); // creates express http server
+express = require('express'),
+bodyParser = require('body-parser'),
+app = express().use(bodyParser.json()); // creates express http server
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
+
+
+// Make a request to set up Messenger Profile for Get Started button
+// Call function to handle request
+request({
+  "uri": "https://graph.facebook.com/v2.6/me/messenger_profile",
+  "qs": { "access_token": "EAACaZCEgAM9YBAGjUf58NQuZBw7xCrvSNC2IQKF6NFZB5sudSTTlG4uZAc162d2h05vTuta0D1OiwxJdM9W84DZCMum05puVxwtjuWcDVJPZA8L236yfHDnCRbihkOP4QTfvkZB5v0gVil4MhSgSwZAnvdh2ouv81gsRch0eo8awxQZDZD" },
+  "method": "POST",
+  "json": {
+    "get_started": {
+      "payload":"get_started_clicked"
+    },
+    "greeting":[
+        {
+          "locale":"default",
+          "text":"Hello. Welcome to Clips Barbers!"
+        },
+        {
+          "locale": "en_US",
+          "text":"Barbers for All."
+        }
+    ]
+  }
+}, (err, res, body) => {
+  if (!err) {
+    console.log('Sent messenger profile request!')
+  } else {
+    console.error("Unable to send messenger profile request message:" + err);
+  }
+});
+
+
+
+
+
 
 
 // Creates the endpoint for our webhook
 app.post('/webhook', (req, res) => {
 
   let body = req.body;
+
+
+
+
 
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
@@ -131,6 +170,11 @@ function handlePostback(sender_psid, received_postback) {
 
   // Get the payload for the postback
   let payload = received_postback.payload;
+
+  // check if payload is get_started_clicked payload
+  if (payload == 'get_started_clicked') {
+    response = "What is your barbers identification code?"
+  }
 
   // Set the response based on the postback payload
   if (payload === 'yes') {
