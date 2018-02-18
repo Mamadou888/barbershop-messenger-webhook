@@ -158,9 +158,27 @@ function handleMessage(sender_psid, received_message) {
     // First response should be the barbers ID, confirm Barber exists
     let barber_id = received_message.text;
     let i = confirmBarber(barber_id);
-    // Display the times that this barber is free
+    // Now that barber id is found, ask the user if they would like to book an appointment
     response = {
-      "text": "Found your barber " + barbers_in_network[i].firstname + "!"
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "button",
+          "text":"Found your barber " + barbers_in_network[i].firstname + "! Would you like to book an appointment?",
+          "buttons":[
+            {
+              "type": "postback",
+              "title": "Yes",
+              "payload": "appointment_yes"
+            },
+            {
+              "type": "postback",
+              "title": "No",
+              "payload": "appointment_no"
+            }
+          ]
+        }
+      }
     }
 
     // response = {
@@ -211,10 +229,11 @@ function handlePostback(sender_psid, received_postback) {
   // Set the response based on the postback payload
   if (payload == 'get_started_clicked') {
     response = {"text": "Welcome to Clips Barbers. To help you book an appointment, tell us your barbers identification code."}
-  } else if (payload === 'yes') {
+  } else if (payload === 'appointment_yes') {
+    // return with quick reply entries of times that barber is free
     response = { "text": "Thanks!" }
-  } else if (payload === 'no') {
-    response = { "text": "Oops, try sending another image." }
+  } else if (payload === 'appointment_no') {
+    response = { "text": "Well, thanks for reaching out, comeaback another day :)." }
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
