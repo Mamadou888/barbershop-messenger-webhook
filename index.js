@@ -145,7 +145,7 @@ function confirmBarber(barber_id) {
   }
 }
 
-let id;
+var id = 0;
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
