@@ -172,12 +172,10 @@ function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload;
 
   // check if payload is get_started_clicked payload
-  if (payload == 'get_started_clicked') {
-    response = "What is your barbers identification code?"
-  }
-
   // Set the response based on the postback payload
-  if (payload === 'yes') {
+  if (payload == 'get_started_clicked') {
+    response = {"text": "What is your barbers identification code?"}
+  } else if (payload === 'yes') {
     response = { "text": "Thanks!" }
   } else if (payload === 'no') {
     response = { "text": "Oops, try sending another image." }
