@@ -156,7 +156,7 @@ function handleMessage(sender_psid, received_message) {
     // will be added to the body of our request to the Send API
 
     // First response should be the barbers ID, confirm Barber exists
-    let barber_id = recieved_message.text;
+    let barber_id = received_message.text;
     let i = confirmBarber(barber_id);
     // Display the times that this barber is free
     response = {
