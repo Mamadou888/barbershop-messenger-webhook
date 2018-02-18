@@ -9,19 +9,22 @@ var barbers_in_network = [
     "firstname": "mekhi",
     "lastname": "jones",
     "barber_id": "1",
-    "phone_number": "1234567890"
+    "phone_number": "1234567890",
+    "times_free": ["02/17,3pm,4pm", "02/17,4pm,5pm", "02/17,5pm,6pm", "02/17,6pm,7pm", "02/17,7pm,8pm", "02/18,3pm,4pm", "02/18,4pm,5pm", "02/18,5pm,6pm", "02/19,4pm,5pm", "02/19,4pm,5pm", "02/20,5pm,6pm"]
   },
   {
     "firstname": "surendra",
     "lastname": "persaud",
     "barber_id": "2",
-    "phone_number": "1234567890"
+    "phone_number": "1234567890",
+    "times_free": ["02/17,3pm,4pm", "02/17,4pm,5pm", "02/17,5pm,6pm", "02/17,6pm,7pm", "02/17,7pm,8pm", "02/18,3pm,4pm", "02/18,4pm,5pm", "02/18,5pm,6pm", "02/19,4pm,5pm", "02/19,4pm,5pm", "02/20,5pm,6pm"]
   },
   {
     "firstname": "garry",
     "lastname": "archbold",
     "barber_id": "3",
-    "phone_number": "1234567890"
+    "phone_number": "1234567890",
+    "times_free": ["02/17,3pm,4pm", "02/17,4pm,5pm", "02/17,5pm,6pm", "02/17,6pm,7pm", "02/17,7pm,8pm", "02/18,3pm,4pm", "02/18,4pm,5pm", "02/18,5pm,6pm", "02/19,4pm,5pm", "02/19,4pm,5pm", "02/20,5pm,6pm"]
   }
 ];
 
@@ -63,10 +66,6 @@ request({
     console.error("Unable to send messenger profile request message:" + err);
   }
 });
-
-
-
-
 
 
 
@@ -146,6 +145,8 @@ function confirmBarber(barber_id) {
   }
 }
 
+let barber_id;
+
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
   let response;
@@ -156,7 +157,7 @@ function handleMessage(sender_psid, received_message) {
     // will be added to the body of our request to the Send API
 
     // First response should be the barbers ID, confirm Barber exists
-    let barber_id = received_message.text;
+    barber_id = received_message.text;
     let i = confirmBarber(barber_id);
     // Now that barber id is found, ask the user if they would like to book an appointment
     response = {
@@ -231,7 +232,65 @@ function handlePostback(sender_psid, received_postback) {
     response = {"text": "Welcome to Clips Barbers. To help you book an appointment, tell us your barbers identification code."}
   } else if (payload === 'appointment_yes') {
     // return with quick reply entries of times that barber is free
-    response = { "text": "Thanks!" }
+
+    // Set up times barber is free
+
+
+    response = {
+      "text": "Here are your barbers available date and times. Please choose a date that works for you. If none works, reply back with 'none'!",
+      "quick_replies":[
+        {
+          "content_type":"text",
+          "title":barbers_in_network[i].times_free[0],
+          "payload":barbers_in_network[i].times_free[0]
+        },
+        {
+          "content_type":"text",
+          "title":barbers_in_network[i].times_free[1],
+          "payload":barbers_in_network[i].times_free[1]
+        },
+        {
+          "content_type":"text",
+          "title":barbers_in_network[i].times_free[2],
+          "payload":barbers_in_network[i].times_free[2]
+        },
+        {
+          "content_type":"text",
+          "title":barbers_in_network[i].times_free[3],
+          "payload":barbers_in_network[i].times_free[3]
+        },
+        {
+          "content_type":"text",
+          "title":barbers_in_network[i].times_free[4],
+          "payload":barbers_in_network[i].times_free[4]
+        },
+        {
+          "content_type":"text",
+          "title":barbers_in_network[i].times_free[5],
+          "payload":barbers_in_network[i].times_free[5]
+        },
+        {
+          "content_type":"text",
+          "title":barbers_in_network[i].times_free[6],
+          "payload":barbers_in_network[i].times_free[6]
+        },
+        {
+          "content_type":"text",
+          "title":barbers_in_network[i].times_free[7],
+          "payload":barbers_in_network[i].times_free[7]
+        },
+        {
+          "content_type":"text",
+          "title":barbers_in_network[i].times_free[8],
+          "payload":barbers_in_network[i].times_free[8]
+        },
+        {
+          "content_type":"text",
+          "title":barbers_in_network[i].times_free[9],
+          "payload":barbers_in_network[i].times_free[9]
+        }
+      ]
+    }
   } else if (payload === 'appointment_no') {
     response = { "text": "Well, thanks for reaching out, comeaback another day :)." }
   }
